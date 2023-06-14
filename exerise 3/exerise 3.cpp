@@ -1,20 +1,113 @@
-// exerise 3.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <vector>
+using namespace std;
 
-int main()
+class penerbit;
+
+class buku {
+public:
+	string namaBuku;
+	buku(string pNamaBuku) :namaBuku(pNamaBuku) {}
+};
+
+class pengarang {
+public:
+	string namaPengarang;
+	vector<penerbit*> daftar_penerbit;
+	vector<buku*> daftar_buku;
+
+	pengarang(string pNama) : namaPengarang(pNama) {}
+
+	void tambahPenerbit(penerbit*);
+	void cetakPenerbit();
+
+	void tambahBuku(buku*);
+	void cetakBuku();
+};
+
+class penerbit {
+public:
+	string namaPenerbit;
+	vector<pengarang*> daftar_pengarang;
+
+	penerbit(string pNama) : namaPenerbit(pNama) {}
+
+	void tambahPengarang(pengarang*);
+	void cetakPengarang();
+};
+
+
+
+void pengarang::tambahPenerbit(penerbit* pPenerbit)
 {
-    std::cout << "Hello World!\n";
+	daftar_penerbit.push_back(pPenerbit);
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+void pengarang::cetakPenerbit() {
+	cout << "Daftar penerbit yang diikuti \"" << this->namaPengarang << "\":\n";
+	for (auto& a : daftar_penerbit) {
+		cout << a->namaPenerbit << "\n";
+	}
+	cout << endl;
+}
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+void penerbit::tambahPengarang(pengarang* pPengarang) {
+	daftar_pengarang.push_back(pPengarang);
+}
+
+void penerbit::cetakPengarang() {
+	cout << "Daftar Penerbit yang diikuti \"" << this->namaPenerbit << "\":\n";
+	for (auto& a : daftar_pengarang) {
+		cout << a->namaPengarang << "\n";
+	}
+	cout << endl;
+}
+
+void pengarang::tambahBuku(buku* pNamaBuku) {
+	daftar_buku.push_back(pNamaBuku);
+}
+
+void pengarang::cetakBuku() {
+	cout << "Daftar buku yang dikarang \"" << this->namaPengarang << "\":\n";
+	for (auto& a : daftar_buku) {
+		cout << a->namaBuku << "\n";
+	}
+	cout << endl;
+
+}
+
+int main() {
+	penerbit* varPenerbit1 = new penerbit("Gama Press");
+	penerbit* varPenerbit2 = new penerbit("Intan Pariwara");
+
+	pengarang* varPengarang1 = new pengarang("Joko");
+	pengarang* varPengarang2 = new pengarang("Lia");
+	pengarang* varPengarang3 = new pengarang("Giga");
+	pengarang* varPengarang4 = new pengarang("Asroni");
+
+	buku* varBuku1 = new buku("Fisika");
+	buku* varBuku2 = new buku("Algoritma");
+	buku* varBuku3 = new buku("Basisdata");
+	buku* varBuku4 = new buku("Dasar Pemrograman");
+	buku* varBuku5 = new buku("Matematika");
+	buku* varBuku6 = new buku("Multimedia 1");
+
+	varPenerbit1->tambahPengarang(varPengarang1);
+	varPenerbit1->tambahPengarang(varPengarang2);
+	varPenerbit1->tambahPengarang(varPengarang3);
+
+	varPenerbit2->tambahPengarang(varPengarang4);
+	varPenerbit2->tambahPengarang(varPengarang3);
+
+	varPengarang3->tambahPenerbit(varPenerbit1);
+	varPengarang3->tambahPenerbit(varPenerbit2);
+
+	varPengarang1->tambahBuku(varBuku1);
+	varPengarang1->tambahBuku(varBuku2);
+	varPengarang2->tambahBuku(varBuku3);
+	varPengarang4->tambahBuku(varBuku4);
+	varPengarang3->tambahBuku(varBuku5);
+	varPengarang3->tambahBuku(varBuku6);
+
+	return 0;
+}
